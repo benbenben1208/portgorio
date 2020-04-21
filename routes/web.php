@@ -15,4 +15,7 @@ Route::get('/', 'PostController@index');
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::prefix('/users')->name('users.')->group(function (){
+  Route::get('/{user_id}', 'UserController@show')->name('show');
+});
+
