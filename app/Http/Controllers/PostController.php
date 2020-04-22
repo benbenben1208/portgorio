@@ -3,11 +3,33 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\Post;
+use App\Http\Requests\PostRequest;
 class PostController extends Controller
 {
     public function index()
     {
-        return view('posts/index');
+        $posts = Post::all();
+        
+        return view('posts/index', compact('posts'));
     }
+    public function create()
+    {
+        return view('posts.create');
+    }
+    public function store(PostRequest $request, Post $post)
+    {
+        
+        $post->caption = $request->caption;
+        $post->user_id = $request->user()->id;
+
+        
+        $posts_store = $request->photo->storeAs('public/post_images' , time() . '.jpg');
+                
+        $post->photo = basename($posts_store);
+        $post->save();
+        return redirect()->route('posts.index');
+
+    }
+    
 }
