@@ -11,11 +11,15 @@
 |
 */
 
-Route::get('/', 'PostController@index');
+Route::get('/', 'PostController@index')->name('posts.index');
 
 Auth::routes();
 
 Route::prefix('/users')->name('users.')->group(function (){
-  Route::get('/{user_id}', 'UserController@show')->name('show');
+  Route::get('/{user}', 'UserController@show')->name('show');
+  Route::get('/{user}/edit', 'UserController@edit')->name('edit');
+  Route::patch('/{user}/update', 'UserController@update')->name('update');
 });
+
+Route::resource('posts','PostController')->except('index');
 
