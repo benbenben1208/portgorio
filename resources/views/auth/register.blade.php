@@ -18,18 +18,7 @@
             <div class="card-text">
               <form method="POST" action="{{route('register')}}">
                 @csrf
-                <div class="form-group">
-                <input class="form-control" type="text" id="name" name="name" placeholder="お名前" required value="{{old('name')}}">    
-                </div>
-                <div class="form-group">
-                  <input class="form-control" type="email" id="email" name="email" placeholder="メールアドレス" required value="{{old('email')}}">    
-                </div>
-                <div class="form-group">
-                  <input class="form-control" type="password" id="password" name="password" placeholder="パスワード"　required>    
-                </div>
-                <div class="form-group">
-                  <input class="form-control" type="password" id="password_confirmation" name="password_confirmation" placeholder="パスワード確認" required>    
-                </div>
+                @include('users.form')
                 <button class="btn btn-block purple-gradient" type="submit">ユーザー登録</button>
               </form>
               <div class="mt-4">
