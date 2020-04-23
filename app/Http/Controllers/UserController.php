@@ -24,7 +24,7 @@ class UserController extends Controller
         $user->name = $request->name;
 
             if($request->user_profile_photo) {
-                $user_images_store = $request->user_profile_photo->storeAs('public/user_images', $user->id . 'jpg');
+                $user_images_store = $request->user_profile_photo->storeAs('public/user_images', $user->id . '.jpg');
                 $user->profile_photo = basename($user_images_store);
             }
 
