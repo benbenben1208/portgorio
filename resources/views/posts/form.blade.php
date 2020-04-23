@@ -3,7 +3,7 @@
     <img class="rounded-circle" width="100" height="100" src="{{ asset('storage/user_images/' . Auth::user()->id . '.jpg')}}" >
   </div>  
   <div class="col">
-    <input type="text" name="caption" placeholder="キャプションを書く" class="form-control"　value="{{$post->caption?? old('caption')}}">  
+  <input type="text" name="caption" class="form-control" value="{{ $post->caption ?? old('caption')}}"　>  
   </div>
 </div>
 <div>
