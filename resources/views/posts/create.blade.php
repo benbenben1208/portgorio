@@ -15,7 +15,7 @@
        <form enctype="multipart/form-data" method="POST"  action="{{ route('posts.store')}}">
           @csrf
          @include('posts.form')
-         <button type="submit" class="btn btn-block purple-gradient mt-3">投稿する</button>
+           <button type="submit" class="btn btn-block purple-gradient mt-3">投稿する</button>
        </form>
        </div>    
       </div>
