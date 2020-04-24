@@ -36,6 +36,16 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    public function followers()
+    {
+        return $this->belongsToMany('App\User', 'follows' , 'followee_id', 'follower_id')->withTimestamps();
+    }
+    public function isLikedBy(User $user)
+    {
+        return $user 
+               ? (bool) $this->followers->where('id' , $user->id)->count()
+               : false;
+    }
     public function posts()
     {
         return $this->hasMany('App\Post');
