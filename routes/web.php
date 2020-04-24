@@ -23,3 +23,6 @@ Route::prefix('/users')->name('users.')->group(function (){
 
 Route::resource('posts','PostController')->except('index');
 
+Route::put('posts/{post}/like' , 'PostController@like')->name('posts.like')->middleware('auth');
+Route::delete('posts/{post}/like' , 'PostController@unlike')->name('posts.unlike')->middleware('auth');
+
