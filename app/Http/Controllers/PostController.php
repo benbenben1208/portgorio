@@ -7,9 +7,13 @@ use App\Post;
 use App\Http\Requests\PostRequest;
 class PostController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource('App\Post', 'post');
+    }
     public function index()
     {
-        $posts = Post::all();
+        $posts = Post::orderBy('created_at', 'desc')->paginate(4);
         
         return view('posts/index', compact('posts'));
     }
@@ -31,6 +35,10 @@ class PostController extends Controller
         return redirect()->route('posts.index');
 
     }
+    public function show(Post $post)
+    {
+        return view('posts.show', compact('post'));
+    }
     public function edit(Post $post)
     {
         return view('posts.edit', compact('post'));
@@ -38,7 +46,8 @@ class PostController extends Controller
     public function update(PostRequest $request, Post $post)
     {
         $post->caption = $request->caption;
-        $posts_store =$request->phpto->storeAs('public/post_images' ,  time() . '.jpg');
+      
+        $posts_store =$request->photo->storeAs('public/post_images' ,  time() . '.jpg');
 
         $post->photo = basename($posts_store);
 
@@ -53,6 +62,27 @@ class PostController extends Controller
         $post->delete();
 
         return redirect()->route('posts.index');
+    }
+    public function like(Request $request, Post $post)
+    {
+
+        $post->likes()->detach($request->user()->id);
+        $post->likes()->attach($request->user()->id);
+
+        return [
+            'id' => $post->id,
+            'countLikes' => $post->count_likes,
+        ];
+    }
+    public function unlike(Request $request, Post $post)
+    {
+        
+        $post->likes()->detach($request->user()->id);
+
+        return [
+            'id' => $post->id,
+            'countLikes' => $post->count_likes,
+        ];
     }
     
 }
