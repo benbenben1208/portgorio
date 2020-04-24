@@ -8,7 +8,7 @@
         <div class="flex flex-row mx-auto">
           <a href="{{ route('users.show' , ['user' => $user->id ])}}">
             @if($user->profile_photo)  
-              <img class="rounded-circle" height="100" width="100" src="{{ asset('storage/user_images/' . $user->profile_photo)}}" alt="#">
+              <img id="profile_image_{{ $user->id }}" class="rounded-circle" height="100" width="100" src="{{ asset('storage/user_images/' . $user->profile_photo)}}" alt="#">
             @else
               <i class="fas fa-user-circle fa-5x"></i>
             @endif
