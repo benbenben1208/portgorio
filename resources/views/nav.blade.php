@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand navbar-dark purple-gradient">
-  <a class="navbar-brand" href="#">
+  <a class="navbar-brand" href="{{ route('posts.index')}}">
     <i class="fas fa-camera-retro"></i> 
   </a>
   
