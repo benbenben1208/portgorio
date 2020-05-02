@@ -36,4 +36,37 @@ class UserController extends Controller
         $user->save();
         return redirect()->route('users.show' , ['user' => $user]);
     }
+    public function follow(Request $request, String $name)
+    {    
+         $user = User::where('name' , $name)->first();
+
+        if($request->user()->id === $user->id) {
+            return abort('404', 'Cannot follow yourself.');
+        }
+        $request->user()->followees()->detach($user);
+        $request->user()->followees()->attach($user);
+
+        return [
+            'name' => $user->name,
+            'countFollowers' => $user->count_followers,
+            'countFollowees' => $user->count_followees,
+        ];
+    }
+    public function unfollow(Request $request, String $name)
+    {
+        $user = User::where('name' , $name)->first();
+        if($request->user()->id === $user->id) {
+           
+            return abort('404', 'Cannot follow yourself.');
+        }
+        
+        $request->user()->followees()->detach($user);
+
+        return [
+            'name' => $user->name,
+            'countFollowers' => $user->count_followers,
+            'countFollowees' => $user->count_followees,
+        ];
+    }
+
 }

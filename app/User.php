@@ -40,14 +40,28 @@ class User extends Authenticatable
     {
         return $this->belongsToMany('App\User', 'follows' , 'followee_id', 'follower_id')->withTimestamps();
     }
-    public function isFollowedBy(User $user)
+    public function followees()
+    {
+        return $this->belongsToMany(User::class , 'follows', 'follower_id', 'followee_id')->withTimestamps();
+    }
+    public function isFollowedBy(?User $user)
     {
         return $user 
                ? (bool) $this->followers->where('id' , $user->id)->count()
                : false;
     }
+    public function getCountFollowersAttribute()
+    {
+        return $this->followers->count();
+    }
+    public function getCountFolloweesAttribute()
+    {
+        return $this->followees->count();
+    }
+
     public function posts()
     {
         return $this->hasMany('App\Post');
     }
+    
 }

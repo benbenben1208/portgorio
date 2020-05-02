@@ -23,8 +23,12 @@
                       <img src="{{ asset('storage/user_images . $user->profile_photo')}}" alt="">  
                     </p>
                   @endif  
-                <input type="file" name="user_profile_photo"  value="{{ old('user_profile_photo',$user->id) }}" accept="image/jpeg,image/gif,image/png" />
+                <input id="user_profile_photo" type="file" name="user_profile_photo"  value="{{ old('user_profile_photo',$user->id) }}" accept="image/jpeg,image/gif,image/png" />
               </div>
+              <div　style="display;none;" class="d-none" id="user_photo_preview">
+                <img id="thumbnail" class="round-circle w-100 h-100" >
+                <p class="userImgPreview_text">画像をアップロード済み</p>
+              </div>  
               @include('users.form')
 
               <button type="submit" class="btn btn-block purple-gradient">プロフィールを更新する</button>

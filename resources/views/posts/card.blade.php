@@ -61,14 +61,18 @@
     <div class="card-body">
       <div class="d-flex flex-row">
         
-          <post-like
-            :initial-is-liked-by='@json($post->isLikedBy(Auth::user()))'
-            :initial-count-likes='@json($post->count_likes)'
-            :authorized='@json(Auth::check())'
-            endpoint ="{{ route('posts.like', ['post' => $post->id])}}"
+          
+      　    <post-like
+              :initial-is-liked-by='@json($post->isLikedBy(Auth::user()))'
+              :initial-count-likes='@json($post->count_likes)'
+              :authorized='@json(Auth::check())'
+              endpoint ="{{ route('posts.like', ['post' => $post->id])}}"
+           ></post-like>
+
+            
            
             
-          ></post-like>
+          
         
         
           <a class="ml-3" href="#">コメント</a>

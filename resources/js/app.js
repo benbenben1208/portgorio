@@ -3,7 +3,8 @@
  * includes Vue and other libraries. It is a great starting point when
  * building robust, powerful web applications using Vue and Laravel.
  */
-import './posts';
+
+import './users';
 require('./bootstrap');
 
 window.Vue = require('vue');
@@ -22,6 +23,8 @@ window.Vue = require('vue');
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
  
 import PostLike from './components/PostLike';
+import FollowButton from './components/FollowButton';
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -32,5 +35,6 @@ const app = new Vue({
     el: '#app',
     components: {
         PostLike,
+        FollowButton,
     }
 });

@@ -8,12 +8,20 @@
       <div class="mx-auto">
         <div class="text-center">
           <h1 class="text-dark mt-3">ポートゴリオ</h1>    
-          <p class="text-secondary">不正組織の写真を見てみんな笑ってやろう</p>
+          <p class="">写真を投稿して公開してみよう</p>
         </div>
         <div class="card">
           <div class="card-body">
             <h2 class=" h3 card-title text-center ">ログイン</h2>
             
+
+
+            <a href="{{ route('login.{provider}', ['provider' => 'google']) }}" class="btn btn-block btn-danger mb-4">
+              <i class="fab fa-google mr-1"></i>Googleでログイン
+            </a>
+
+
+            @include('error_card_list')
             <div class="card-text">
               <form method="POST" action="{{ route('login')}}">
                 @csrf

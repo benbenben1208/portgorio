@@ -5,7 +5,7 @@
   <div class="container">
     <div class="card mt-5">
       <div class="card-body">
-        <div class="flex flex-row mx-auto">
+        <div class="d-flex  mx-auto">
           <a href="{{ route('users.show' , ['user' => $user->id ])}}">
             @if($user->profile_photo)  
               <img id="profile_image_{{ $user->id }}" class="rounded-circle" height="100" width="100" src="{{ asset('storage/user_images/' . $user->profile_photo)}}" alt="#">
@@ -14,23 +14,26 @@
             @endif
           </a>
           @if($user->id == Auth::id())
-        　　<a class="btn btn-pink btn-xs" href="{{ route('users.edit',['user' => $user->id ])}}">編集</a>
+        　　<p><a class="btn btn-pink btn-xs text-white ml-5 mt-3" href="{{ route('users.edit',['user' => $user->id ])}}">編集</a></p>
         　@endif
         </div>
           <h2 class="h5 card-title m-0 pt-1 pl-2" >
-            <a class="text-dark" href="{{ route('users.show' , ['user' => $user->id ])}}">
+            <a class="text-dark " href="{{ route('users.show' , ['user' => $user->id ])}}">
               {{ $user->name}}
             </a>    
           </h2>    
       </div>
       <div class="card-body">
         <div class="card-text">
-          <a href="">
-            10 フォロー
-          </a>
-          <a href="">
-            10 フォロー    
-          </a>  
+          
+          <follow-button
+           
+            :initial-is-followed-by='@json($user->isFollowedBy(Auth::user()))'
+            :initial-count-followers='@json($user->count_followers)'
+            :initial-count-followees='@json($user->count_followees)'
+            :authorized='@json(Auth::check())'
+            endpoint="{{ route('users.follow', ['name' => $user->name])}}"
+          ></follow-button>
         </div>  
            
       </div>    
