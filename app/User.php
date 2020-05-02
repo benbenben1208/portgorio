@@ -28,6 +28,8 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+
+
     /**
      * The attributes that should be cast to native types.
      *
@@ -62,6 +64,10 @@ class User extends Authenticatable
     public function posts()
     {
         return $this->hasMany('App\Post');
+    }
+    public function comments()
+    {
+        return $this->hasMany('App\Comment');
     }
     
 }
