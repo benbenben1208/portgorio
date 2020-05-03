@@ -14,7 +14,8 @@ class PostController extends Controller
     public function index()
     {
         $posts = Post::orderBy('created_at', 'desc')->paginate(4);
-        
+        $posts->load('user','likes','comments');
+       
         return view('posts/index', compact('posts'));
     }
     public function create()
