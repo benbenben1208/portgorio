@@ -3,6 +3,7 @@
 @include('nav')
 @section('content')
   <div class="container">
+    @include('error_card_list') 
     @foreach($posts as $post)  
       @include('posts.card')
     @endforeach
