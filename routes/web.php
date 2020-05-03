@@ -36,3 +36,8 @@ Route::delete('posts/{post}/like' , 'PostController@unlike')->name('posts.unlike
 
 Route::put('users/{name}/follow', 'UserController@follow')->name('users.follow')->middleware('auth');
 Route::delete('users/{name}/follow', 'UserController@unfollow')->name('users.unfollow')->middleware('auth');
+
+//ここからコメント機能のルーティング
+
+Route::post('comments/','CommentController@store')->name('comments.store');
+Route::post('comments/{id}', 'CommentController@destroy')->name('comments.destroy');
