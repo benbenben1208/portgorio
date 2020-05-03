@@ -59,7 +59,7 @@
       <img  width="450" class="card-img-top" src="{{ asset('storage/post_images/' . $post->photo)}}" >
     </a>        
     <div class="card-body">
-      <div class="d-flex flex-row">
+      <div class="d-flex flex-row mb-3">
         
           
       　    <post-like
@@ -68,15 +68,24 @@
               :authorized='@json(Auth::check())'
               endpoint ="{{ route('posts.like', ['post' => $post->id])}}"
            ></post-like>
-
+           
             
            
             
           
         
         
-          <a class="ml-3" href="#">コメント</a>
+          
         
-      </div>    
+      </div> 
+      <form method="POST" action="{{ route('comments.store')}}">
+        @csrf
+      <input type="hidden" value="{{ $post->id }}" name="post_id">
+        <div class="row align-items-center justify-content-between">
+          <div class="col-xs-12 col-sm-10"><input class="form-control" placeholder="コメントを書く" type="text" name="comment"></div>
+           <div class="col-sm-2 mt-3 mt-sm-0"><button type="submit" class="btn-sm　btn-secondary">入力</button></div>
+        </div>
+        
+      </form>   
     </div>
   </div>
