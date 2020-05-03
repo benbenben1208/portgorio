@@ -77,7 +77,33 @@
         
           
         
-      </div> 
+      </div>
+      <div>
+        
+        @foreach($post->comments as $comment)
+          @if($loop->first)
+            <div class="mt-2 mb-2">
+          @endif    
+          
+            <div class="mb-3">
+                 <a href="{{ route('users.show',['user' => $comment->user->id])}}">
+                    {{$comment->user->name}}
+                 </a>
+                 <span class="ml-3">{{$comment->comment}}</span>
+                @if($comment->user_id === @Auth::user()->id) 
+                <form method="POST"  action="{{ route('comments.destroy', ['comment' => $comment->id])}}">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="btn-danger mt-3">削除する</button>
+                </form>
+                @endif
+            </div>
+          @if($loop->last)
+            </div>
+          @endif
+        @endforeach  
+      </div>
+      @Auth
       <form method="POST" action="{{ route('comments.store')}}">
         @csrf
       <input type="hidden" value="{{ $post->id }}" name="post_id">
@@ -85,7 +111,7 @@
           <div class="col-xs-12 col-sm-10"><input class="form-control" placeholder="コメントを書く" type="text" name="comment"></div>
            <div class="col-sm-2 mt-3 mt-sm-0"><button type="submit" class="btn-sm　btn-secondary">入力</button></div>
         </div>
-        
+       @endAuth 
       </form>   
     </div>
   </div>
