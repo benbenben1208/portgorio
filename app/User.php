@@ -1,9 +1,10 @@
 <?php
 
 namespace App;
-
+use App\Mail\BareMail;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use App\Notifications\PasswordResetNotification;
 use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
@@ -27,6 +28,7 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+    
 
 
 
@@ -38,6 +40,13 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+   //オーバーライド
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new PasswordResetNotification($token, new BareMail()));
+    }
+
+
     public function followers()
     {
         return $this->belongsToMany('App\User', 'follows' , 'followee_id', 'follower_id')->withTimestamps();

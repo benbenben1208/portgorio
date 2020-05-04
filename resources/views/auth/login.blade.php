@@ -35,6 +35,9 @@
 
                  <button class="btn btn-block purple-gradient">ログイン</button>
               </form>
+              <div class=" text-center mt-3">
+                <a href="{{ route('password.request')}}">パスワードを忘れた方</a>
+              </div>
               <div class="mt-2">
               　　<p>アカウントをお持ちではないですか？<a href="{{ route('register')}}">登録する</a></p> 
               </div>  
