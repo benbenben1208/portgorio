@@ -3,10 +3,10 @@
     <a  class="text-muted" href="">
       フォロー{{countFollowees}}
     </a>
-    <a class="text-muted" href="">
+    <a  class="text-muted" href="">
       フォロワー{{countFollowers}}  
     </a>
-    <button class="btn-sm  shadow-none border border-primary ml-3"
+    <button v-if="followButtonFade"   class="btn-sm  shadow-none border border-primary ml-3"
             :class="buttonColor"
            
             @click="clickFollow"
@@ -44,6 +44,10 @@ export default {
       endpoint: {
           type: String,
       },
+      initialCompareUsers: {
+          type: Boolean,
+          default: false,
+      }
       
       
 
@@ -53,7 +57,7 @@ export default {
           isFollowedBy: this.initialIsFollowedBy,
           countFollowers: this.initialCountFollowers,
           countFollowees:this.initialCountFollowees,
-         
+          CompareUsers: this.initialCompareUsers,
       }
   },
   computed: {
@@ -72,7 +76,14 @@ export default {
                  ? 'フォロー解除'
                  : 'フォローする'
       },
-
+      followButtonFade() {
+          if (this.CompareUsers || !this.authorized) {
+              return false;
+          } else {
+             return  true;
+          }
+      },
+ 
   },
   methods: {
       clickFollow() {
