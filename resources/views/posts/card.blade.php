@@ -61,13 +61,14 @@
     <div class="card-body">
       <div class="d-flex flex-row mb-3">
         
-          
+           @if(Auth::id()!== $post->user->id)
       　    <post-like
               :initial-is-liked-by='@json($post->isLikedBy(Auth::user()))'
               :initial-count-likes='@json($post->count_likes)'
               :authorized='@json(Auth::check())'
               endpoint ="{{ route('posts.like', ['post' => $post->id])}}"
            ></post-like>
+           @endif
            
             
            
