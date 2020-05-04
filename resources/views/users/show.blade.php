@@ -27,12 +27,13 @@
         <div class="card-text">
           
           <follow-button
-           
+            
             :initial-is-followed-by='@json($user->isFollowedBy(Auth::user()))'
             :initial-count-followers='@json($user->count_followers)'
             :initial-count-followees='@json($user->count_followees)'
             :authorized='@json(Auth::check())'
             endpoint="{{ route('users.follow', ['name' => $user->name])}}"
+            :initial-compare-users='@json(Auth::id() === $user->id)'
           ></follow-button>
         </div>  
            
