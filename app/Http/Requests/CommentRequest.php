@@ -24,13 +24,15 @@ class CommentRequest extends FormRequest
     public function rules()
     {
         return [
-            'comment' => 'max:30|required'
+            'comment' => 'max:30|required',
+            'post_id' => 'required',
         ];
     }
     public function attributes()
     {
         return [
-            'comment' => 'コメント'
+            'comment' => 'コメント',
+            
         ];
     }
 }

@@ -10,12 +10,9 @@ class CommentController extends Controller
 {
     public function store(CommentRequest $request, Comment $comment)
     {
+        $comment->fill($request->validated() + ['user_id' => $request->user()->id])->save();
         
-         $comment->post_id = $request->post_id;
-         
-         $comment->user_id = $request->user()->id;
-         $comment->comment = $request->comment;
-         $comment->save();
+        // $comment->create($request->validated() + ['user_id' => $request->user()->id]); 
 
          return redirect()->route('posts.index');
     }
