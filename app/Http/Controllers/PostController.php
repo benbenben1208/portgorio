@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Post;
+use App\Tag;
 use App\Http\Requests\PostRequest;
 class PostController extends Controller
 {
@@ -40,6 +41,11 @@ class PostController extends Controller
                 
         $post->photo = basename($posts_store);
         $post->save();
+
+        $request->tags->each(function ($tagName) use ($post) {
+            $tag = Tag::firstOrCreate(['name' => $tagName]);
+            $post->tags()->attach($tag);
+        });
         return redirect()->route('posts.index');
 
     }
