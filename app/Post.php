@@ -12,11 +12,11 @@ class Post extends Model
     ];
     public function likes()
     {
-        return $this->belongsToMany('App\User', 'likes');
+        return $this->belongsToMany(App\User::class, 'likes');
     }
     public function user()
     {
-        return $this->belongsTo('App\User');
+        return $this->belongsTo(App\User::class);
     }
     public function isLikedBy(?User $user)
     {
