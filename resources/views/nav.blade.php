@@ -3,6 +3,12 @@
     <i class="fas fa-camera-retro"></i> 
   </a>
   
+    <form class="mt-3 ml-2" method="GET" action="{{ route('posts.index')}}">
+      <input type="text" name="keyword" placeholder="キーワード検索">
+      <button class="btn　btn-white ml-1">検索する</button>
+    </form>
+  
+  
   <ul class="navbar-nav ml-auto">
     @guest
     <li class="nav-item">
@@ -34,7 +40,7 @@
     </li>
     
     <form method="POST" action="{{ route('logout')}}" id="logout-button">
-    @csrf
+      @csrf
   </form>
     @endauth
   </ul>   
