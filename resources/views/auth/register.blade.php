@@ -8,7 +8,7 @@
       <div  class="mx-auto mt-3">
         <div class="text-center">
           <h1 class="h1"><a class="text-dark" href="#">ポートゴリオ</a></h1>
-          <p class="text-secondary">不正組織の写真を見てみんな笑ってやろう</p>
+          <p class="text-secondary">自由に写真を投稿しよう</p>
         </div>
         
         <div class="card mt-4">
