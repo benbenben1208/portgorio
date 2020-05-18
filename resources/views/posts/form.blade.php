@@ -12,5 +12,7 @@
     <input type="text" placeholder="キャプションを書いてね！" name="caption" class="form-control" value="{{ $post->caption ?? old('caption')}}">
   </div>
 </div>
-
+  <div class="form-group">
+    <post-tags-input></post-tags-input>
+  </div>
   <input class="mt-3 mb-3" type="file" name="photo" accept="image/jpeg,image/gif,image/png" >  
