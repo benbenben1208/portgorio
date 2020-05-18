@@ -43,6 +43,6 @@ class PostRequest extends FormRequest
             ->slice(0, 5)
             ->map(function ($requestTag) {
                 return $requestTag->text;
-            })
+            });
     }
 }
