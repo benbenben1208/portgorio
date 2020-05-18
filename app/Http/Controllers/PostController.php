@@ -11,11 +11,18 @@ class PostController extends Controller
     {
         $this->authorizeResource('App\Post', 'post');
     }
-    public function index()
+    public function index(Request $request)
     {
-        $posts = Post::orderBy('created_at', 'desc')->paginate(4);
-        $posts->load('user','likes','comments');
+        if ($request->has('keyword')) {
+            $posts = Post::with('user','likes','comments')->where('caption', 'LIKE', '%' . $request->keyword . '%')
+            ->orderBy('created_at', 'desc')->paginate(4)->appends($request->all());
+        } else {
+            $posts = Post::with('user','likes','comments')->orderBy('created_at', 'desc')->paginate(4);
+        }
+
+        
        
+        
         return view('posts/index', compact('posts'));
     }
     public function create()
