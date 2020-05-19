@@ -28,7 +28,10 @@ class PostController extends Controller
     }
     public function create()
     {
-        return view('posts.create');
+        $allTagNames = Tag::all()->map(function ($tag) {
+            return ['text' => $tag->name];
+        });
+        return view('posts.create', compact('allTagNames'));
     }
     public function store(PostRequest $request, Post $post)
     {
@@ -58,8 +61,12 @@ class PostController extends Controller
        $tagNames = $post->tags->map(function ($tag) {
            return ['text' => $tag->name];
        });
+
+       $allTagNames = Tag::all()->map(function ($tag){
+           return ['text' => $tag->name];
+       });
         
-        return view('posts.edit', compact('post','tagNames'));
+        return view('posts.edit', compact('post','tagNames','allTagNames'));
     }
     public function update(PostRequest $request, Post $post)
     {
@@ -76,7 +83,7 @@ class PostController extends Controller
             $tag = Tag::firstOrCreate(['name' => $tagName]);
             $post->tags()->attach($tag);
         });
-        
+
          return redirect()->route('posts.index');
 
     }
