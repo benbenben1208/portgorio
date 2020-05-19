@@ -1,15 +1,6 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+
 // Google認証ログイン　登録関連
 Route::prefix('login')->name('login.')->group(function () {
   Route::get('/{provider}', 'Auth\LoginController@redirectToProvider')->name('{provider}');
@@ -47,3 +38,8 @@ Route::prefix('/comments')->name('comments.')->middleware('auth')->group(functio
 // Route::post('comments/','CommentController@store')->name('comments.store');
   Route::delete('/{comment}', 'CommentController@destroy')->name('destroy');
 });
+
+Route::get('tags/{name}', 'TagController@show')->name('tags.show');
+
+
+
