@@ -55,7 +55,11 @@ class PostController extends Controller
     }
     public function edit(Post $post)
     {
-        return view('posts.edit', compact('post'));
+       $tagNames = $post->tags->map(function ($tag) {
+           return ['text' => $tag->name];
+       });
+        
+        return view('posts.edit', compact('post','tagNames'));
     }
     public function update(PostRequest $request, Post $post)
     {
@@ -67,7 +71,13 @@ class PostController extends Controller
 
         $post->save();
 
-        return redirect()->route('posts.index');
+        $post->tags()->detach();
+        $request->tags->each(function ($tagName) use ($post){
+            $tag = Tag::firstOrCreate(['name' => $tagName]);
+            $post->tags()->attach($tag);
+        });
+        
+         return redirect()->route('posts.index');
 
     }
     public function destroy(Post $post)
