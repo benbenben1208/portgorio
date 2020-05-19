@@ -38,4 +38,11 @@ class Post extends Model
     {
         return $this->belongsToMany(Tag::class)->withTimestamps();
     }
+    public function scopeWhereKeyword($query, $keyword)
+    {
+        if ($keyword) {
+            $query->where('caption', 'LIKE', '%');
+        }
+        return $query;
+    }
 }
