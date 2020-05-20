@@ -15,6 +15,22 @@ Route::prefix('register')->name('register.')->group(function () {
 
 Auth::routes();
 
+
+Route::prefix('/admin')->name('admin.')->group(function () {
+  //ホーム画面
+  Route::get('home', 'Admin\HomeController@index')->name('home');
+  
+  //ログイン　ログアウト
+  Route::get('login', 'Admin\Auth\LoginController@showLoginForm')->name('login');
+  Route::post('login', 'Admin\Auth\LoginController@login')->name('login');
+  Route::post('logout', 'Admin\Auth\LoginController@logout')->name('logout');
+
+  //登録
+  Route::get('register', 'Admin\Auth\RegisterController@showRegisterForm')->name('register');
+  Route::post('register', 'Admin\Auth\RegisterController@register')->name('register');
+  
+});
+
 //ユーザーページ関連
 Route::prefix('/users')->name('users.')->group(function (){
   Route::get('/{user}', 'UserController@show')->name('show');
