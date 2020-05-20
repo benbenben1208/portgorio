@@ -2,11 +2,11 @@
 
 namespace App\Listeners;
 
-use App\Events\Logined;
+use Illuminate\Auth\Events\Login;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
-
-class LastLoginedListener
+use Carbon\Carbon;
+class LogSuccessfulLogin
 {
     /**
      * Create the event listener.
@@ -21,11 +21,13 @@ class LastLoginedListener
     /**
      * Handle the event.
      *
-     * @param  Logined  $event
+     * @param  Login  $event
      * @return void
      */
-    public function handle(Logined $event)
+    public function handle(Login $event)
     {
-        //
+        
+        $event->user->last_logined_at = Carbon::now();
+        $event->user->save();
     }
 }
