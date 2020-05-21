@@ -35,10 +35,10 @@ Route::prefix('/admin')->name('admin.')->group(function () {
     Route::get('users/{user}/show', 'Admin\UserController@show')->name('users.show');
     //投稿管理
     Route::get('posts/index', 'Admin\UserPostController@index')->name('posts.index');
-    Route::delete('posts/{post}/show', 'Admin\UserPostController@destroy')->name('posts.destroy');
+    Route::delete('posts/{post}/destroy', 'Admin\UserPostController@destroy')->name('posts.destroy');
     //ユーザーコメント管理
-    Route::get('comments/index', 'Admin\UserController@index')->name('comments.index');
-    Route::get('comments/{comment}delete', 'Admin\UserController@destroy')->name('comments.destroy');
+    Route::get('comments/index', 'Admin\UserCommentController@index')->name('comments.index');
+    Route::delete('comments/{comment}/destroy', 'Admin\UserCommentController@destroy')->name('comments.destroy');
     
   });
 });
