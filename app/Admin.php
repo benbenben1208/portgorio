@@ -1,13 +1,11 @@
 <?php
 
 namespace App;
-use Illuminate\Notifications\Notifiable;
+
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-
 class Admin extends Authenticatable
 {
-    use Notifable;
     protected $fillable = [
         'name', 'email', 'password',
     ];
@@ -24,4 +22,12 @@ class Admin extends Authenticatable
 
 
 
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+    ];
 }
