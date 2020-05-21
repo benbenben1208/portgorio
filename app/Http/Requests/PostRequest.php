@@ -27,6 +27,7 @@ class PostRequest extends FormRequest
             'caption' => 'max:255|required|',
             'photo' => 'required|file|image|mimes:jpeg,png,jpg,gif|max:2048',
             'tags' => 'json|regex:/^(?!.*\s).+$/u|regex:/^(?!.*\/).*$/u',
+            
         ];
     }
     public function attributes()
@@ -34,7 +35,7 @@ class PostRequest extends FormRequest
         return [
             'caption' => 'キャプション',
             'photo' => 'フォト',
-            'tags' => 'タグ'
+            'tags' => 'タグ',
         ];
     }
     public function passedValidation()
