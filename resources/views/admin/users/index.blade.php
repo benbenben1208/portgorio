@@ -5,6 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
+            <p><a href="{{ route('admin.posts.index')}}">投稿一覧</a></p>
                <table border="1">
                  <tr>
                    <th>ユーザーネーム</th>
@@ -17,8 +18,8 @@
                   <tr>
                   <td><a href="{{ route('admin.users.show', ['user' => $user->id ])}}">{{ $user->name }}</a></td>
                     <td>{{ $user->email }}</td>
-                    <td> <a href="#">投稿一覧へ</a></td>
-                  　<td> <a href="#">コメント一覧へ</a></td>
+                    <td> <a href="#">このユーザーの投稿一覧へ</a></td>
+                  　<td> <a href="#">このユーザーのコメント一覧へ</a></td>
                     <td>{{ $user->last_logined_at }}</td>
                    
                   </tr>
