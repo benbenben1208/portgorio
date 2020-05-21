@@ -20,12 +20,9 @@ class PostController extends Controller
             ->orderBy('created_at', 'desc')
             ->paginate(4);
 
-
-        
-       
-        
         return view('posts/index', compact('posts'));
     }
+
     public function create()
     {
         $allTagNames = Tag::all()->map(function ($tag) {
@@ -33,18 +30,16 @@ class PostController extends Controller
         });
         return view('posts.create', compact('allTagNames'));
     }
+
     public function store(PostRequest $request, Post $post)
     {
-        
-        $post->caption = $request->caption;
-        $post->user_id = $request->user()->id;
-
-        
+        // dd($request->user()->id);
         $posts_store = $request->photo->storeAs('public/post_images' , time() . '.jpg');
-                
         $post->photo = basename($posts_store);
-        $post->save();
 
+        // dd($request->validated() + ['user_id' => $request->user()->id]);
+        $post->fill($request->validated() + ['user_id' => $request->user()->id])->save();
+       
         $request->tags->each(function ($tagName) use ($post) {
             $tag = Tag::firstOrCreate(['name' => $tagName]);
             $post->tags()->attach($tag);
@@ -70,22 +65,20 @@ class PostController extends Controller
     }
     public function update(PostRequest $request, Post $post)
     {
-        $post->caption = $request->caption;
-      
-        $posts_store =$request->photo->storeAs('public/post_images' ,  time() . '.jpg');
+       $posts_store =$request->photo->storeAs('public/post_images' ,  time() . '.jpg');
+       $post->photo = basename($posts_store);
 
-        $post->photo = basename($posts_store);
+       $post->fill($request->validated() + ['user_id' => $request->user()->id])->save();
+        
 
-        $post->save();
-
-        $post->tags()->detach();
+       $post->tags()->detach();
         $request->tags->each(function ($tagName) use ($post){
             $tag = Tag::firstOrCreate(['name' => $tagName]);
             $post->tags()->attach($tag);
         });
 
-         return redirect()->route('posts.index');
-
+        return redirect()->route('posts.index');
+  
     }
     public function destroy(Post $post)
     {

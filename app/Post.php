@@ -9,6 +9,7 @@ class Post extends Model
     protected $fillable = [
         'caption',
         'profile_photo',
+        'user_id',
     ];
     public function likes()
     {
