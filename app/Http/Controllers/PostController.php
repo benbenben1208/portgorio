@@ -33,11 +33,11 @@ class PostController extends Controller
 
     public function store(PostRequest $request, Post $post)
     {
-        // dd($request->user()->id);
+      
         $posts_store = $request->photo->storeAs('public/post_images' , time() . '.jpg');
         $post->photo = basename($posts_store);
 
-        // dd($request->validated() + ['user_id' => $request->user()->id]);
+       
         $post->fill($request->validated() + ['user_id' => $request->user()->id])->save();
        
         $request->tags->each(function ($tagName) use ($post) {
