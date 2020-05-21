@@ -3,6 +3,7 @@
 namespace App;
 use App\Mail\BareMail;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Notifications\PasswordResetNotification;
 use Illuminate\Notifications\Notifiable;
@@ -69,14 +70,22 @@ class User extends Authenticatable
     {
         return $this->followees->count();
     }
+    public function postLikes() :BelongsToMany
+    {
+        return $this->belongsToMany(Post::class, 'likes');
+    }
+    public function getCountAllLikesAttribute()
+    {
+        return $this->postLikes->count();
+    }
 
     public function posts()
     {
-        return $this->hasMany(App\Post::class);
+        return $this->hasMany(Post::class);
     }
     public function comments()
     {
-        return $this->hasMany(App\Comment::class);
+        return $this->hasMany(Comment::class);
     }
     
 }

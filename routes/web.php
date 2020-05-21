@@ -29,6 +29,18 @@ Route::prefix('/admin')->name('admin.')->group(function () {
   Route::get('register', 'Admin\Auth\RegisterController@showRegisterForm')->name('register');
   Route::post('register', 'Admin\Auth\RegisterController@register')->name('register');
   
+  Route::middleware('auth:admin')->group(function () {
+    //ユーザー管理
+    Route::get('users/index', 'Admin\UserController@index')->name('users.index');
+    Route::get('users/{user}/show', 'Admin\UserController@show')->name('users.show');
+    //投稿管理
+    Route::get('posts/index', 'Admin\UserPostController@index')->name('posts.index');
+    Route::delete('posts/{post}/show', 'Admin\UserPostController@destroy')->name('posts.destroy');
+    //ユーザーコメント管理
+    Route::get('comments/index', 'Admin\UserController@index')->name('comments.index');
+    Route::get('comments/{comment}delete', 'Admin\UserController@destroy')->name('comments.destroy');
+    
+  });
 });
 
 //ユーザーページ関連

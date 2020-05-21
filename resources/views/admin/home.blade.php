@@ -5,17 +5,9 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">ADMIN_Dashboard</div>
-
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
-                    You are logged in!
-                </div>
+              <p><a href="{{ route('admin.users.index')}}">ユーザー一覧</a></p>   
+              {{-- <p><a href="{{ route('admin.users.posts.index')}}">投稿一覧</a></p>   
+              <p><a href="{{ route('admin.users.comments.index')}}">コメント一覧</a></p>    --}}
             </div>
         </div>
     </div>
