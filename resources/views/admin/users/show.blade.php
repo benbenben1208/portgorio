@@ -14,8 +14,12 @@
             <p>いいねの数 {{ $user->count_all_likes}}</p>
             　<p>フォロー数　　{{$user->count_followers }}<p>  
             <p>フォロワー数　　{{ $user->count_followees }}</p>
-            <a href="">BANする　</a>
-            <a href="">永久BANする</a>   
+            <form method="POST" action="{{ route('admin.users.destroy', ['user' => $user->id ])}}">
+                @csrf
+                @method('DELETE')
+               <button type="submit" class="btn-danger mt-3">凍結する</button>
+              </form>
+            
 
             </div>
         </div>

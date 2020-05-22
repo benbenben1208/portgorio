@@ -9,7 +9,7 @@
           @endif
       </a> 
       <a class="ml-3" href="{{ route('users.show',['user' => $post->user->id])}}">
-        <strong>{{ $post->user->name}}</strong>
+        <strong>{{ $post->user->name }}</strong>
       </a>
       <strong class="ml-3">{{$post->caption}}</strong>
       @if(Auth::id() == $post->user->id)

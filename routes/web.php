@@ -33,6 +33,7 @@ Route::prefix('/admin')->name('admin.')->group(function () {
     //ユーザー管理
     Route::get('users/index', 'Admin\UserController@index')->name('users.index');
     Route::get('users/{user}/show', 'Admin\UserController@show')->name('users.show');
+    Route::delete('users/{user}/destroy', 'Admin\UserController@destroy')->name('users.destroy');
     //投稿管理
     Route::get('posts/index', 'Admin\UserPostController@index')->name('posts.index');
     Route::delete('posts/{post}/destroy', 'Admin\UserPostController@destroy')->name('posts.destroy');
