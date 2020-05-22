@@ -10,14 +10,25 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 class User extends Authenticatable
 {
+    public static function boot()
+    {
+        parent::boot();
+
+        static::deleted(function ($user) {
+            foreach($user->posts as $post) {
+                $post->delete();
+            }
+            foreach($user->comments as $comment) {
+                $comment->delete();
+            }
+           
+        });
+       
+    }
     use Notifiable;
     
     use softDeletes;
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
+    
     protected $fillable = [
         'name', 'email', 'password',
     ];

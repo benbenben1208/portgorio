@@ -7,9 +7,15 @@ use Illuminate\Http\Request;
 use App\User;
 class UserController extends Controller
 {
-    public function index(User $user)
+    public function index(User $user, Request $request)
     {
-        $users = User::all();
+        // $query = User::query();
+        
+        // if (isset($request->name)) {
+        //     $query->where('name', 'LIKE', '%'. $request->name. '%');
+        // }
+        
+       
         return view('admin/users/index', compact('users'));
     }
     public function show(User $user)
