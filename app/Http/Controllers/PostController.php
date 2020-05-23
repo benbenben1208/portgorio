@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Post;
 use App\Tag;
 use App\Http\Requests\PostRequest;
+use Illuminate\Support\Facades\DB;
 class PostController extends Controller
 {
     public function __construct()
@@ -33,17 +34,21 @@ class PostController extends Controller
 
     public function store(PostRequest $request, Post $post)
     {
-      
-        $posts_store = $request->photo->storeAs('public/post_images' , time() . '.jpg');
-        $post->photo = basename($posts_store);
+        DB::transaction(function () use ($request, $post) {
 
-       
-        $post->fill($request->validated() + ['user_id' => $request->user()->id])->save();
-       
-        $request->tags->each(function ($tagName) use ($post) {
-            $tag = Tag::firstOrCreate(['name' => $tagName]);
-            $post->tags()->attach($tag);
+          $posts_store = $request->photo->storeAs('public/post_images' , time() . '.jpg');
+          $post->photo = basename($posts_store);
+
+          $post->fill($request->validated() + ['user_id' => $request->user()->id])->save();
+
+          $request->tags->each(function ($tagName) use ($post) {
+          $tag = Tag::firstOrCreate(['name' => $tagName]);
+
+           $post->tags()->attach($tag);
+
         });
+     });
+
         return redirect()->route('posts.index');
 
     }
@@ -65,17 +70,26 @@ class PostController extends Controller
     }
     public function update(PostRequest $request, Post $post)
     {
-       $posts_store =$request->photo->storeAs('public/post_images' ,  time() . '.jpg');
-       $post->photo = basename($posts_store);
+        DB::transaction(function () use ($request, $post) {
 
-       $post->fill($request->validated() + ['user_id' => $request->user()->id])->save();
-        
+            $posts_store =$request->photo->storeAs('public/post_images' ,  time() . '.jpg');
+            $post->photo = basename($posts_store);
+            $post->fill($request->validated() + ['user_id' => $request->user()->id])->save();
 
-       $post->tags()->detach();
-        $request->tags->each(function ($tagName) use ($post){
+            $post->tags()->detach();
+            $request->tags->each(function ($tagName) use ($post){
             $tag = Tag::firstOrCreate(['name' => $tagName]);
+
             $post->tags()->attach($tag);
         });
+        });
+       
+       
+
+       
+        
+
+       
 
         return redirect()->route('posts.index');
   
