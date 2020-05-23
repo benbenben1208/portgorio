@@ -5,17 +5,15 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\User;
+use Carbon\Carbon;
 class UserController extends Controller
 {
     public function index(User $user, Request $request)
     {
-        // $query = User::query();
-        
-        // if (isset($request->name)) {
-        //     $query->where('name', 'LIKE', '%'. $request->name. '%');
-        // }
-        
-       
+        $users = User::whereNameFilter($request->name)
+            ->wherePeriod($request->period)
+            ->orderBy('created_at', 'desc')
+            ->paginate(4);
         return view('admin/users/index', compact('users'));
     }
     public function show(User $user)

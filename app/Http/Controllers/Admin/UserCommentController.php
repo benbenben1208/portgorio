@@ -5,14 +5,29 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Comment;
+use Carbon\Carbon;
 class UserCommentController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $comments = Comment::with('user')->orderBy('created_at', 'desc')
-            ->paginate(20);
+        
+        $carbon = new Carbon;
+        $dates = Comment::pluck('created_at');
 
-            return view('admin.comments.index', compact('comments'));
+        foreach($dates as $date) {
+            $array[] = $date->format('m');
+        }
+           
+        
+        $months = collect($array)->unique()->sort()->reverse()->values();
+        
+        $comments = Comment::with('user')
+            ->whereMonthly($request->monthly)
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+          
+        
+            return view('admin.comments.index', compact('comments', 'months'));
     }
     public function destroy(Comment $comment)
     {

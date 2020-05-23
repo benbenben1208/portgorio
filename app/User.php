@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Notifications\PasswordResetNotification;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Carbon\Carbon;
 class User extends Authenticatable
 {
     public static function boot()
@@ -98,6 +99,35 @@ class User extends Authenticatable
     public function comments()
     {
         return $this->hasMany(Comment::class);
+    }
+    public function scopeWhereNameFilter($query, $name = null)
+    {
+        if ($name) {
+           
+            $query->where('name', 'LIKE', '%' . $name . '%');
+        }
+        return $query;
+    }
+    public function scopeWherePeriod($query, $period = null)
+    {
+        if ($period) {
+            if (strpos($period, 'hour')) {
+                $period = intval(substr($period, 0, 1));
+                $query->where('created_at', '>', Carbon::now()->subHours($period));
+                
+            }
+            
+            if (strpos($period, 'week')) {
+                $period = intval(substr($period, 0, 1));
+                 $query->where('created_at', '>', Carbon::now()->subWeeks($period));
+            }
+            if (strpos($period, 'month')) {
+                $period = intval(substr($period, 0, 1));
+                $query->where('created_at', '>', Carbon::now()->subMonths($period));
+                
+            }
+        }
+        return $query;
     }
     
 }

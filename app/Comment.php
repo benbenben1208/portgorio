@@ -21,4 +21,12 @@ class Comment extends Model
     {
         return $this->belongsTo(Post::class);
     }
+   
+    public function scopeWhereMonthly($query, $monthly = null)
+    {
+        if($monthly) {
+            $query->whereMonth('created_at', $monthly);
+        }
+        return $query;
+    }
 }
