@@ -17,11 +17,11 @@ class UserCommentController extends Controller
         foreach($dates as $date) {
             $array[] = $date->format('m');
         }
-           
-        
         $months = collect($array)->unique()->sort()->reverse()->values();
         
+       
         $comments = Comment::with('user')
+            ->whereKeyword($request->keyword)
             ->whereMonthly($request->monthly)
             ->orderBy('created_at', 'desc')
             ->paginate(10);
