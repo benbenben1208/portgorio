@@ -35,16 +35,20 @@
                           <input type="text" name="name" class="form-control">
                         </div>
                         <div class="form-group">
-                          <label for="period">期間</label>
-                          <select name="period" class="form-control">
-                            <option value="">---------</option>
-                            <option value="hour">1時間以内</option>
-                            <option value="day">1日以内</option>
-                            <option value="week">1週間以内</option>
-                            <option value="month">1ヶ月以内</option>
-                            <option value="six_month">半年以内</option>
-                            <option value="year">1年以内</option>
-                            <option value="non">指定無し</option>
+                          <label for="period">登録日</label>
+                            <select name="period" class="form-control">
+                              <option value="">---------</option>
+                              <option value="1hour">1時間以内</option>
+                              <option value="3hours">3時間以内</option>
+                              <option value="6hours">6時間以内</option>
+                              <option value="24hours">1日以内</option>
+                              <option value="1week">1週間以内</option>
+                              <option value="2week">2週間以内</option>
+                              <option value="1month">1ヶ月以内</option>
+                              <option value="3months">3ヶ月以内</option>
+                              <option value="6months">半年以内</option>
+                              <option value="12months">1年以内</option>
+                              <option value="non">指定無し</option>
                           </select>
                         </div>
                       </form>
