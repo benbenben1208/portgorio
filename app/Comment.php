@@ -21,6 +21,14 @@ class Comment extends Model
     {
         return $this->belongsTo(Post::class);
     }
+    public function scopeWhereKeyword($query, $keyword = null)
+    {
+        if($keyword) {
+            $query->where('comment', 'LIKE', '%'. $keyword . '%');
+        }
+        return $query;
+    }
+    
    
     public function scopeWhereMonthly($query, $monthly = null)
     {

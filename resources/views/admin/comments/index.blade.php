@@ -63,8 +63,8 @@
       
        <p>{{ $comment->user->name }}</p>
        <span class="ml-3">{{$comment->comment}}</span>
-      <span class="ml-3">  投稿日時{{ $comment->created_at}}</span>
-       <span class="ml-3">更新日時{{ $comment->updated_at }}</span>
+      <span class="ml-3">  投稿日時 {{ $comment->created_at->format('yy-m-d')}}</span>
+       <span class="ml-3">更新日時 {{ $comment->updated_at->format('yy-m-d') }}</span>
        <form method="POST" action="{{ route('admin.comments.destroy', ['comment' => $comment->id ])}}">
          @csrf
          @method('DELETE')
