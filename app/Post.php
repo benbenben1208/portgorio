@@ -39,10 +39,45 @@ class Post extends Model
     {
         return $this->belongsToMany(Tag::class)->withTimestamps();
     }
-    public function scopeWhereKeyword($query, $keyword)
+    public function scopeWhereKeyword($query, $keyword = null)
     {
         if ($keyword) {
-            $query->where('caption', 'LIKE', '%');
+            $query->where('caption', 'LIKE', '%'. $keyword . '%');
+        }
+        return $query;
+    }
+    public function scopeWhereKeywordAdmin($query, $keyword = null)
+    {
+        
+        if ($keyword) {
+            $query->whereHas('user', function($query) use ($keyword) {
+            $query->where('name', 'LIKE', '%' . $keyword . '%');
+        }) 
+        ->orWhere('caption', 'LIKE', '%'. $keyword .'%');
+           
+
+        }
+        return $query;
+    }
+    
+    public function scopeWhereYears($query, $year = null)
+    {
+        if($year) {
+            $query->whereYear('created_at' , $year);
+        }
+        return $query;
+    }
+    public function scopeWhereMonths($query, $month = null)
+    {
+        if($month) {
+            $query->whereMonth('created_at', $month);
+        }
+        return $query;
+    }
+    public function scopeWhereDays($query, $day = null)
+    {
+        if($day) {
+           $query->whereDay('created_at', $day);
         }
         return $query;
     }
