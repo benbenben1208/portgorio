@@ -9,6 +9,8 @@
               <p><a href="{{ route('admin.posts.index')}}">投稿一覧</a></p>
               <p><a href="{{ route('admin.comments.index')}}">コメント一覧</a></p>
               <p><a href="">凍結中のアカウント一覧</a></p>
+            <p><a class="btn btn-primary" href=" {{url('/csv/download')}}" target="blank">CSVダウンロード</a></p>
+              
             </div>  
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#Modal">
               検索
@@ -83,6 +85,9 @@
                   </tr>
                 @endforeach     
                </table>
+               <div class="mt-5 row justify-content-center">
+                 {{ $users->links()}}
+              </div>
             </div>
         </div>
     </div>

@@ -44,6 +44,8 @@ Route::prefix('/admin')->name('admin.')->group(function () {
   });
 });
 
+Route::get('csv/download', 'CsvDownloadController@download');
+
 //ユーザーページ関連
 Route::prefix('/users')->name('users.')->group(function (){
   Route::get('/{user}', 'UserController@show')->name('show');
