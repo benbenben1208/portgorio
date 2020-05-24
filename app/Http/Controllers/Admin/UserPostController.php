@@ -25,7 +25,7 @@ class UserPostController extends Controller
         
         
         $posts = Post::with('user')
-            ->whereKeywordAdmin($request->keyword)
+            ->whereKeyword($request->keyword)
             ->whereYears($request->year)
             ->whereMonths($request->month)
             ->whereDays($request->day)

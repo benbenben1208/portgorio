@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Post;
 use App\Tag;
+
 use App\Http\Requests\PostRequest;
 use Illuminate\Support\Facades\DB;
 class PostController extends Controller
@@ -82,7 +83,7 @@ class PostController extends Controller
 
             $post->tags()->attach($tag);
         });
-        });
+      });
        
        
 

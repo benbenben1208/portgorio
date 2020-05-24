@@ -39,20 +39,17 @@ class Post extends Model
     {
         return $this->belongsToMany(Tag::class)->withTimestamps();
     }
+    
     public function scopeWhereKeyword($query, $keyword = null)
-    {
-        if ($keyword) {
-            $query->where('caption', 'LIKE', '%'. $keyword . '%');
-        }
-        return $query;
-    }
-    public function scopeWhereKeywordAdmin($query, $keyword = null)
     {
         
         if ($keyword) {
             $query->whereHas('user', function($query) use ($keyword) {
             $query->where('name', 'LIKE', '%' . $keyword . '%');
-        }) 
+        })
+           ->orWhereHas('comments', function($query) use ($keyword) {
+            $query->where('comment', 'LIKE', '%' . $keyword . '%');
+        })
         ->orWhere('caption', 'LIKE', '%'. $keyword .'%');
            
 
