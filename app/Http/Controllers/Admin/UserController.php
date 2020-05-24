@@ -13,7 +13,7 @@ class UserController extends Controller
         $users = User::whereNameFilter($request->name)
             ->wherePeriod($request->period)
             ->orderBy('created_at', 'desc')
-            ->paginate(4);
+            ->paginate(30);
         return view('admin/users/index', compact('users'));
     }
     public function show(User $user)
