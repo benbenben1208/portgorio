@@ -34,6 +34,8 @@ Route::prefix('/admin')->name('admin.')->group(function () {
     Route::get('users/index', 'Admin\UserController@index')->name('users.index');
     Route::get('users/{user}/show', 'Admin\UserController@show')->name('users.show');
     Route::delete('users/{user}/destroy', 'Admin\UserController@destroy')->name('users.destroy');
+    //凍結済みユーザー管理
+    Route::get('flozened/index', 'Admin\FlozenedController@index')->name('flozened.index');
     //投稿管理
     Route::get('posts/index', 'Admin\UserPostController@index')->name('posts.index');
     Route::delete('posts/{post}/destroy', 'Admin\UserPostController@destroy')->name('posts.destroy');
@@ -43,8 +45,9 @@ Route::prefix('/admin')->name('admin.')->group(function () {
     
   });
 });
-
-Route::get('csv/download', 'CsvDownloadController@download');
+// csvダウンロード機能
+Route::get('csv/download_users', 'CsvDownloadController@download_users');
+Route::get('csv/download_flozened', 'CsvDownloadController@download_flozened');
 
 //ユーザーページ関連
 Route::prefix('/users')->name('users.')->group(function (){

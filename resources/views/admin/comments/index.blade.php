@@ -3,12 +3,12 @@
 @section('content')
 <div class="container">
   
- 
+  <h1 class="h2">ユーザーコメント一覧</h1>
     <div class="card">
       <div>
         <p><a href="{{ route('admin.posts.index')}}">投稿一覧</a></p>
         <p><a href="{{ route('admin.comments.index')}}">コメント一覧</a></p>
-        <p><a href="">凍結中のアカウント一覧</a></p>
+        <p><a href="{{ route('admin.flozened.index')}}">凍結中のアカウント一覧</a></p>
       </div>  
       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#Modal">
         検索

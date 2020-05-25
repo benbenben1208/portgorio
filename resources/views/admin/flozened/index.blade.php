@@ -1,15 +1,19 @@
+
+
+
 @extends('layouts.admin')
 
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
+            <h1 class="h2 text-danger">凍結済みユーザー</h1>
             <div class="card">
             <div>
               <p><a href="{{ route('admin.posts.index')}}">投稿一覧</a></p>
               <p><a href="{{ route('admin.comments.index')}}">コメント一覧</a></p>
             <p><a href="{{ route('admin.flozened.index')}}">凍結中のアカウント一覧</a></p>
-            <p><a class="btn btn-primary" href=" {{url('/csv/download_users')}}" target="blank">CSVダウンロード</a></p>
+            <p><a class="btn btn-primary" href=" {{url('/csv/download_flozened')}}" target="blank">CSVダウンロード</a></p>
               
             </div>  
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#Modal">
@@ -68,19 +72,15 @@
                  <tr>
                    <th>ユーザーネーム</th>
                    <th>メールアドレス</th>
-                   <th>投稿一覧</th>
-                   <th>コメント一覧</th>
                    <th>アカウント作成日時</th>
-                   <th>最終ログイン日時</th>
+                   <th>アカウント凍結日時</th>
                 </tr>
                 @foreach($users as $user)
                   <tr>
                   <td><a href="{{ route('admin.users.show', ['user' => $user->id ])}}">{{ $user->name }}</a></td>
                     <td>{{ $user->email }}</td>
-                    <td> <a href="#">このユーザーの投稿一覧へ</a></td>
-                  　<td> <a href="#">このユーザーのコメント一覧へ</a></td>
                     <td>{{ $user->created_at }}</td>
-                     <td> {{ $user->last_logined_at }}</td>
+                     <td> {{ $user->deleted_at }}</td>
                   
                   </tr>
                 @endforeach     
