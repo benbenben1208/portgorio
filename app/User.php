@@ -15,13 +15,23 @@ class User extends Authenticatable
     {
         parent::boot();
 
-        static::deleted(function ($user) {
+        self::deleting(function ($user) {
             foreach($user->posts as $post) {
                 $post->delete();
             }
             foreach($user->comments as $comment) {
                 $comment->delete();
             }
+            // foreach($user->likes as $like) {
+            //     $like->delete();
+            // }
+            
+            foreach($user->followers as $follower ) {
+                $follower->delete();
+            }
+            // foreach($user->folowee as $folowee) {
+            //     $folowee->delete();
+            // }
            
         });
        
