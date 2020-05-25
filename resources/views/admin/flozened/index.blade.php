@@ -10,6 +10,8 @@
             <h1 class="h2 text-danger">凍結済みユーザー</h1>
             <div class="card">
             <div>
+
+              <p><a href="{{ route('admin.users.index')}}">ユーザー一覧</a></p>
               <p><a href="{{ route('admin.posts.index')}}">投稿一覧</a></p>
               <p><a href="{{ route('admin.comments.index')}}">コメント一覧</a></p>
             <p><a href="{{ route('admin.flozened.index')}}">凍結中のアカウント一覧</a></p>
@@ -74,6 +76,7 @@
                    <th>メールアドレス</th>
                    <th>アカウント作成日時</th>
                    <th>アカウント凍結日時</th>
+                   <th>---</th>
                 </tr>
                 @foreach($users as $user)
                   <tr>
@@ -81,9 +84,18 @@
                     <td>{{ $user->email }}</td>
                     <td>{{ $user->created_at }}</td>
                      <td> {{ $user->deleted_at }}</td>
-                  
+                     <td>
+                        <form  method="POST" action="{{ route('admin.flozened.restore',['flozened' => $user->id ])}}">
+                          @csrf    
+                         <button type="submit" class="btn btn-dark btn-sm">凍結を解除する</button>
+                        </form> 
+                    </td>
                   </tr>
-                @endforeach     
+               
+                @endforeach
+                {{-- <form id="restore" method="POST" action="{{ route('admin.flozened.restore',['user' => $user->id ])}}">
+                  @csrf
+                </form>    --}}
                </table>
                <div class="mt-5 row justify-content-center">
                  {{ $users->links()}}

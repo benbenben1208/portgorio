@@ -7,9 +7,7 @@
     @foreach($posts as $post)
       @if ($post->user)  
         @include('posts.card')
-      @else
-        @include('posts.flozened_card')
-      @endif
+      @endif  
     @endforeach
   </div>
   <div class="mt-5 row justify-content-center">

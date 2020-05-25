@@ -5,6 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
+              <h1 class="h2 text-success">ユーザー一覧</h1>  
             <div>
               <p><a href="{{ route('admin.posts.index')}}">投稿一覧</a></p>
               <p><a href="{{ route('admin.comments.index')}}">コメント一覧</a></p>
