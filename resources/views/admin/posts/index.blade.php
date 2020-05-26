@@ -8,9 +8,20 @@
       <p><a href="{{ route('admin.flozened.index')}}">凍結中のアカウント一覧</a></p>
    
       
-    </div>  
+    </div>
+    @if($errors->any())
+      <div class="alert alert-danger">
+    <ul>
+      @foreach ($errors->all() as $error)
+        <li>{{ $error }}</li>  
+      @endforeach
+    </ul>
+
+    </div>
+@endif  
     <h1 class="h2">ユーザー投稿一覧</h1>
-  <form method="get" {{ route('admin.posts.index') }}>
+  <form method="POST" action="{{ route('admin.posts.search')}}">
+    @csrf
       <select name="year">
         <option value="">---年---<option>
         @foreach($years as $year)   

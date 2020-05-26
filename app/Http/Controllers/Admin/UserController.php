@@ -8,7 +8,7 @@ use App\User;
 use Carbon\Carbon;
 class UserController extends Controller
 {
-    public function index(User $user, Request $request)
+    public function index( Request $request)
     {
         $users = User::whereNameFilter($request->name)
             ->wherePeriod($request->period)
