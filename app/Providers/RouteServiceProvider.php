@@ -15,7 +15,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    public const HOME = 'user/home';
+    public const HOME = '/';
     public const ADMIN_HOME = 'admin/home';
     /**
      * Define your route model bindings, pattern filters, etc.
@@ -40,30 +40,24 @@ class RouteServiceProvider extends ServiceProvider
 
         $this->mapWebRoutes();
 
-        //
+        $this->mapAdminRoutes();
     }
 
-    /**
-     * Define the "web" routes for the application.
-     *
-     * These routes all receive session state, CSRF protection, etc.
-     *
-     * @return void
-     */
+   
     protected function mapWebRoutes()
     {
         Route::middleware('web')
              ->namespace($this->namespace)
              ->group(base_path('routes/web.php'));
     }
+    protected function mapAdminRoutes()
+    {
+        Route::middleware('admin')
+            ->namespace($this->namespace)
+            ->group(base_path('routes/admin.php'));
+    }
 
-    /**
-     * Define the "api" routes for the application.
-     *
-     * These routes are typically stateless.
-     *
-     * @return void
-     */
+   
     protected function mapApiRoutes()
     {
         Route::prefix('api')
