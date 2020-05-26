@@ -4,12 +4,14 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Carbon\CarbonImmutable;
 class Post extends Model
 {
     protected $fillable = [
         'caption',
         'profile_photo',
         'user_id',
+        'created_at',
     ];
     public function likes()
     {
@@ -57,24 +59,42 @@ class Post extends Model
         return $query;
     }
     
-    public function scopeWhereYears($query, $year = null)
+   
+
+    public function scopeWherePostsInYear($query, $year = null)
     {
         if($year) {
-            $query->whereYear('created_at' , $year);
+
+          $dates = new CarbonImmutable();
+          $start = $dates->setyear($year)->firstOfYear();
+         
+          $end = $start->endOfYear();
+        
+          $query->whereBetween('created_at', [$start, $end]);
+          
         }
-        return $query;
+          return $query;
+   
     }
-    public function scopeWhereMonths($query, $month = null)
+    public function scopeWherePostsInMonth($query, $month, $year)
     {
         if($month) {
-            $query->whereMonth('created_at', $month);
+            $dates = new CarbonImmutable();
+            $start = $dates->setMonth($month)->firstOfMonth();
+            $end = $dates->setMonth($month)->endOfMonth();
+
+            $query->whereBetween('created_at', [$start, $end]);
         }
         return $query;
     }
-    public function scopeWhereDays($query, $day = null)
+    public function scopeWherePostsInDay($query, $day)
     {
         if($day) {
-           $query->whereDay('created_at', $day);
+            $dates = new CarbonImmutable();
+            $start = $dates->setDay($day)->StartOfDay();
+            $end = $dates->setDay($day)->endOfDay();
+
+            $query->whereBetween('created_at', [$start, $end]);
         }
         return $query;
     }
