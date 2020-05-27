@@ -41,7 +41,8 @@ class Post extends Model
     {
         return $this->belongsToMany(Tag::class)->withTimestamps();
     }
-    
+   
+
     public function scopeWhereKeyword($query, $keyword = null)
     {
         
@@ -58,8 +59,6 @@ class Post extends Model
         }
         return $query;
     }
-    
-   
 
     public function scopeWherePostsInYear($query, $year = null)
     {

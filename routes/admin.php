@@ -23,7 +23,7 @@ Route::prefix('/admin')->name('admin.')->group(function () {
    
     //投稿管理
     Route::get('posts/index', 'Admin\UserPostController@index')->name('posts.index');
-    Route::post('posts/index', 'Admin\UserPostController@search')->name('posts.search');
+    Route::post('posts/index', 'Admin\UserPostController@index')->name('posts.search');
     Route::delete('posts/{post}/destroy', 'Admin\UserPostController@destroy')->name('posts.destroy');
     //ユーザーコメント管理
     Route::get('comments/index', 'Admin\UserCommentController@index')->name('comments.index');
