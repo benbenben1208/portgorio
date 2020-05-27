@@ -9,7 +9,8 @@
         <p><a href="{{ route('admin.posts.index')}}">投稿一覧</a></p>
         <p><a href="{{ route('admin.comments.index')}}">コメント一覧</a></p>
         <p><a href="{{ route('admin.flozened.index')}}">凍結中のアカウント一覧</a></p>
-      </div>  
+      </div>
+      @include('error_card_list')  
       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#Modal">
         検索
       </button>
@@ -27,20 +28,41 @@
               </button>
             </div>
             
-            <form id="filter" method="GET">
+            <form id="filter" method="POST">
               <div class="modal-body">
-                <form method="GET" action="{{ route('admin.users.index')}}">
+                <form method="POST" action="{{ route('admin.comments.search')}}">
+                  @csrf
                   <div class="form-group">
                     <label for="keyword">キーワード</label>
                     <input type="text" name="keyword" class="form-control">
                   </div>
                   <div class="form-group">
-                    <label for="month">コメント投稿日</label>
-                      <select name="monthly" class="form-control">
+                    <label for="year">コメント投稿年</label>
+                      <select name="year" class="form-control">
+                          <option value="">---------</option>
+                      
+                        @foreach($years as $year)
+                          <option value="{{$year}}">{{$year}}年</option>
+                        @endforeach  
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="month">コメント投稿月</label>
+                      <select name="month" class="form-control">
                           <option value="">---------</option>
                       
                         @foreach($months as $month)
                           <option value="{{$month}}">{{$month}}</option>
+                        @endforeach  
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="day">コメント投稿日</label>
+                      <select name="day" class="form-control">
+                          <option value="">---------</option>
+                      
+                        @foreach($days as $day)
+                          <option value="{{$day}}">{{$day}}</option>
                         @endforeach  
                     </select>
                   </div>

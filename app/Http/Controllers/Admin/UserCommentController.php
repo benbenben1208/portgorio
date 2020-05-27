@@ -4,30 +4,38 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Requests\UserPostRequest;
 use App\Comment;
-use Carbon\Carbon;
+
 class UserCommentController extends Controller
 {
-    public function index(Request $request)
+    public function index(UserPostRequest $request)
     {
         
-        $carbon = new Carbon;
+        
         $dates = Comment::pluck('created_at');
 
         foreach($dates as $date) {
-            $array[] = $date->format('m');
+            $array_years[] = $date->format('yy');
+            $array_months[] = $date->format('m');
+            $array_days[] = $date->format('d');
         }
-        $months = collect($array)->unique()->sort()->reverse()->values();
         
+        $years = collect($array_years)->unique()->sort()->reverse()->values();
+        $months = collect($array_months)->unique()->sort()->reverse()->values();
+        $days = collect($array_days)->unique()->sort()->reverse()->values();
+       
        
         $comments = Comment::with('user')
             ->whereKeyword($request->keyword)
-            ->whereMonthly($request->monthly)
+            ->whereCommentsInYear($request->year)
+            ->whereCommentsInMonth($request->month)
+            ->whereCommentsInDay($request->day)
             ->orderBy('created_at', 'desc')
             ->paginate(10);
           
         
-            return view('admin.comments.index', compact('comments', 'months'));
+            return view('admin.comments.index', compact('comments', 'years', 'months', 'days' ));
     }
     public function destroy(Comment $comment)
     {

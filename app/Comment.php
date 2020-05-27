@@ -3,6 +3,8 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Carbon\CarbonImmutable;
+use App\User;
 
 class Comment extends Model
 {
@@ -23,17 +25,44 @@ class Comment extends Model
     }
     public function scopeWhereKeyword($query, $keyword = null)
     {
-        if($keyword) {
-            $query->where('comment', 'LIKE', '%'. $keyword . '%');
+       if($keyword) {
+           $query->whereHas('user', function($query) use ($keyword) {
+               $query->where('comments', 'LIKE', '%' . $keyword . '%');
+           })
+           ->orWhere('comments', 'LIKE', '%'. $keyword .'%');
+       }
+        return $query;
+    }
+
+    
+   
+    public function scopeWhereCommentsInYear($query, $year = null)
+    {
+        if($year) {
+            $dates = new CarbonImmutable();
+            $start = $dates->setyear($year)->firstOfYear();
+            $end = $start->endOfYear();
+            $query->whereBetween('created_at', [$start, $end]);
         }
         return $query;
     }
-    
-   
-    public function scopeWhereMonthly($query, $monthly = null)
+    public function scopeWhereCommentsInMonth($query, $month = null)
     {
-        if($monthly) {
-            $query->whereMonth('created_at', $monthly);
+        if($month) {
+            $dates = new CarbonImmutable();
+            $start = $dates->setmonth($month)->firstOfMonth();
+            $end = $start->endOfMonth();
+            $query->whereBetween('created_at', [$start, $end]);
+        }
+        return $query;
+    }
+    public function scopeWhereCommentsInDay($query, $day = null)
+    {
+        if($day) {
+            $dates = new CarbonImmutable();
+            $start = $dates->setday($day)->startOfDay();
+            $end = $start->endOfDay();
+            $query->whereBetween('created_at', [$start, $end]);
         }
         return $query;
     }

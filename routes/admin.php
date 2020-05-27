@@ -27,6 +27,7 @@ Route::prefix('/admin')->name('admin.')->group(function () {
     Route::delete('posts/{post}/destroy', 'Admin\UserPostController@destroy')->name('posts.destroy');
     //ユーザーコメント管理
     Route::get('comments/index', 'Admin\UserCommentController@index')->name('comments.index');
+    Route::post('comments/index', 'Admin\UserCommentController@index')->name('comments.search');
     Route::delete('comments/{comment}/destroy', 'Admin\UserCommentController@destroy')->name('comments.destroy');
     
   });
