@@ -118,6 +118,7 @@ class User extends Authenticatable
         }
         return $query;
     }
+    
     public function scopeWherePeriod($query, $period = null)
     {
         if ($period) {
@@ -138,6 +139,10 @@ class User extends Authenticatable
             }
         }
         return $query;
+    }
+    public function chats()
+    {
+        return $this->hasMany(Chat::class);
     }
     
 }

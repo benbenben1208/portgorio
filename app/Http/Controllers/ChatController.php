@@ -22,9 +22,9 @@ class ChatController extends Controller
     }
     public function getData()
     {
-        $chats = Chat::orderBy('created_at', 'desc')
+        $chats = Chat::with('user:id,name')->orderBy('created_at', 'desc')
             ->get();
- 
+        
         return $chats;
         
     }
