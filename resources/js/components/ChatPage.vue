@@ -8,7 +8,8 @@
           <button type="button" v-on:click="submitChat">送信</button>
         </div>
         <div v-for="msg in messages" :key="msg">
-          {{ msg.message }}
+            <p>{{ msg.created_at }}</p>
+            <p>{{ msg.message }}</p>
         </div>
       </div>
     </div>
@@ -36,13 +37,9 @@ export default {
       axios.post(url, params).then(res => {
       
        this.message = '';
-      }).catch(error => {
- 　 　　const {
-    　status,
-    　statusText
- 　　 } = error.response;
-  　　　console.log(`Error! HTTP Status: ${status} ${statusText}`);
-　　　});
+
+       this.getMessages();
+      });
      
     },
     getMessages() {
