@@ -7,8 +7,8 @@
          <input type="text" v-model="message">
           <button type="button" v-on:click="submitChat">送信</button>
         </div>
-        <div class="messages">
-        　　{{message}}
+        <div v-for="msg in messages" :key="msg">
+          {{ msg.message }}
         </div>
       </div>
     </div>
@@ -25,22 +25,34 @@ export default {
       
     }
   },
+   mounted() {
+      this.getMessages();
+  },  
   methods: {
-    submitChat() {
-      const url = '/chats/store';
+     submitChat() {
+     const url = '/chats/store';
       const params = {message: this.message};
 
       axios.post(url, params).then(res => {
       
-       this.message = 'あいうえお';
+       this.message = '';
+      }).catch(error => {
+ 　 　　const {
+    　status,
+    　statusText
+ 　　 } = error.response;
+  　　　console.log(`Error! HTTP Status: ${status} ${statusText}`);
+　　　});
+     
+    },
+    getMessages() {
+      const url = '/chats/getdata';
+      axios.get(url).then(res => {
+        this.messages = res.data;
+      
       });
     },
-    // getMessages() {
-    //   const url = chats/getdata;
-    //   axios.get(url).then(res => {
-    //     this.messages = res.data;
-    //   });
-    // }  
+   
     }
   }
 

@@ -12,16 +12,21 @@ class ChatController extends Controller
     {
         return view('chats.show');
     }
-    public function store(Request $request, Chat $chat)
+    public function store(Request $request)
     {
-        dd($request);
+        
+        $chat = new Chat();
+        $chat->message = $request->message;
+        $chat->user_id = $request->user()->id;
+        $chat->save();
+        
         
     }
-    // public function getData()
-    // {
-    //     $chats = Chat::orderBy('id', 'desc')->get();
-
-    //     return $chats;
-    // }
+    public function getData()
+    {
+        $chats = Chat::orderBy('id', 'desc')->get();
+        
+        
+    }
     
 }
