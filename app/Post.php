@@ -4,6 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
 use Carbon\CarbonImmutable;
 class Post extends Model
 {
@@ -13,11 +16,11 @@ class Post extends Model
         'user_id',
         'created_at',
     ];
-    public function likes()
+    public function likes():BelongsToMany
     {
-        return $this->belongsToMany(User::class, 'likes');
+        return $this->belongsToMany(User::class, 'likes')->withTimestamps();
     }
-    public function user()
+    public function user():BelongsTo
     {
         return $this->belongsTo(User::class);
     }
@@ -33,7 +36,7 @@ class Post extends Model
         return $this->likes->count();
     }
     
-    public function comments()
+    public function comments():HasMany
     {
         return $this->hasMany(Comment::class);
     }
