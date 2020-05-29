@@ -48,7 +48,8 @@ Route::prefix('/comments')->name('comments.')->middleware('auth')->group(functio
 Route::get('tags/{name}', 'TagController@show')->name('tags.show');
 
 //チャット機能
-Route::get('chats/show', 'ChatController@show')->name('chats.show');
+Route::get('chats/{user}/show', 'ChatController@show')->name('chats.show');
+Route::get('chats/{user}/{group}/show', 'ChatController@showIsChatted')->name('chats.showIsChatted');
 Route::post('chats/store', 'ChatController@store')->name('chats.store');
 Route::get('chats/getdata', 'ChatController@getData')->name('chats.getData');
 

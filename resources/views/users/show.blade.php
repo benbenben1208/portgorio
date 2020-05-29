@@ -14,8 +14,30 @@
             @endif
           </a>
           @if($user->id == Auth::id())
-        　　<p><a class="btn btn-pink btn-xs text-white ml-5 mt-3" href="{{ route('users.edit',['user' => $user->id ])}}">編集</a></p>
+        　　<p><a class="btn btn-pink btn-xs text-white ml-5 mt-5" href="{{ route('users.edit',['user' => $user->id ])}}">編集</a></p>
+        　  <div class="dropdown">
+          <button type="button" id="dropdown1"
+              class="btn btn-primary dropdown-toggle"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false">
+            メッセージする
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdown1">
+            {{-- @if($user->groups) --}}
+            @foreach($user->groups as $group)
+           
+          <a class="dropdown-item" href="{{ route('chats.showIsChatted', ['user' => $user->id, 'group' => $group->id, ])}}">{{ $group->chattedUser($user)->name }}</a>
+            @endforeach
+            {{-- @endif --}}
+          </div>
+        </div>
         　@endif
+          @auth
+            @if($user->id != Auth::id())
+              <p><a class="btn btn-primary ml-3 mt-4" href="{{ route('chats.show',['user' => $user->id ])}}">メッセージする</a></p>
+            @endif
+          @endauth
         </div>
           <h2 class="h5 card-title m-0 pt-1 pl-2" >
             <a class="text-dark " href="{{ route('users.show' , ['user' => $user->id ])}}">

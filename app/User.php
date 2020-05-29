@@ -148,7 +148,7 @@ class User extends Authenticatable
     }
     public function groups():BelongsToMany
     {
-        return $this->belongsToMany(Group::class);
+        return $this->belongsToMany(Group::class, 'user_group')->withTimestamps();
     }
     
     

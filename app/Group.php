@@ -10,6 +10,11 @@ class Group extends Model
 
     public function users():BelongsToMany
     {
-        return $this->belongsToMany(User::class)->withTimestamps();
+        return $this->belongsToMany(User::class,  'user_group')->withTimestamps();
+    }
+    public function chattedUser($user)
+    {
+        
+        return $this->users->where('id', '!=', $user->id)->first();
     }
 }
