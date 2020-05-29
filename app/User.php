@@ -3,6 +3,8 @@
 namespace App;
 use App\Mail\BareMail;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Notifications\PasswordResetNotification;
@@ -71,11 +73,11 @@ class User extends Authenticatable
     }
 
 
-    public function followers()
+    public function followers():BelongsToMany
     {
         return $this->belongsToMany(User::class, 'follows' , 'followee_id', 'follower_id')->withTimestamps();
     }
-    public function followees()
+    public function followees():BelongsToMany
     {
         return $this->belongsToMany(User::class , 'follows', 'follower_id', 'followee_id')->withTimestamps();
     }
@@ -102,11 +104,11 @@ class User extends Authenticatable
         return $this->postLikes->count();
     }
 
-    public function posts()
+    public function posts():HasMany
     {
         return $this->hasMany(Post::class);
     }
-    public function comments()
+    public function comments():HasMany
     {
         return $this->hasMany(Comment::class);
     }
@@ -140,9 +142,14 @@ class User extends Authenticatable
         }
         return $query;
     }
-    public function chats()
+    public function chats():HasMany
     {
         return $this->hasMany(Chat::class);
     }
+    public function groups():BelongsToMany
+    {
+        return $this->belongsToMany(Group::class);
+    }
+    
     
 }
