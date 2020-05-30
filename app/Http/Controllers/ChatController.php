@@ -22,7 +22,7 @@ class ChatController extends Controller
         }
 
         $group->load('users');      
-        
+
             return view('chats.show', compact('group'));
   
     }
@@ -37,14 +37,21 @@ class ChatController extends Controller
         $chat->create($request->validated()+ [
             'user_id' => $request->user()->id 
             ]);
+            
     }
     public function getData()
     {
         $chats = Chat::with('user:id,name')->orderBy('created_at', 'desc')
             ->get();
-        
+       
         return $chats;
         
+    }
+    public function destroy(Chat $chat)
+    {
+        $chat->delete();
+        // $chat = Chat::where('id', $id)->delete();
+     
     }
     
 }

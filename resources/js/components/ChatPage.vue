@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h2>チャットルーム</h2>
     <div class="row">
       <div class="col-sm-offset-2 col-sm-8">
         <div class="form-group">
@@ -8,8 +7,11 @@
           <button type="button" v-on:click="submitChat">送信</button>
         </div>
         <div v-for="msg in messages" :key="msg">
-            <p>{{ msg.created_at }}</p>
-            <p>{{ msg.message }}</p>
+            <p><span>{{msg.user.name}}</span>{{ msg.created_at }}
+            <p>{{ msg.message }}
+              <button @click="deleteMsg(msg.id)" class="ml-5 btn-sm">削除する</button>
+            </p>
+           
         </div>
       </div>
     </div>
@@ -23,7 +25,6 @@ export default {
     return {
       message: '',
       messages: [],
-      
     }
   },
    mounted() {
@@ -35,10 +36,10 @@ export default {
       const params = {message: this.message};
 
       axios.post(url, params).then(res => {
-      
        this.message = '';
-
        this.getMessages();
+
+       
       });
      
     },
@@ -46,10 +47,17 @@ export default {
       const url = '/chats/getdata';
       axios.get(url).then(res => {
         this.messages = res.data;
-      
+      console.log(this.messages);
       });
     },
-   
+    deleteMsg(id) {
+      const url = '/chats/delete/' + id;
+      console.log(url);
+      axios.post(url).then(res => {
+        this.getMessages();
+      });
+    }
+    
     }
   }
 
