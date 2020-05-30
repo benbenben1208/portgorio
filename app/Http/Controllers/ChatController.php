@@ -12,17 +12,17 @@ class ChatController extends Controller
 {
     public function show(Request $request, User $user, Group $group)
     {
-        DB::transaction(function () use ($request, $user) {
-             $user2 = $request->user();
-             $group = Group::with('users')->firstOrCreate([
-            'name' => $user->name . 'と' . $user2->name,
-          ]);
-            
-            $group->users()->detach([$user->id, $user2->id]);
-            $group->users()->attach([$user->id, $user2->id]);
+        $chatted_user = $request->user();
 
-            
-        });
+        $group = Group::whereExistGroup($user, $chatted_user)->first();
+        
+        if (!$group) {
+            $group = Group::create(['name' => $user->name . 'と' . $chatted_user->name]);
+            $group->users()->attach([$user->id, $chatted_user->id ]);
+        }
+
+        $group->load('users');      
+        
             return view('chats.show', compact('group'));
   
     }
