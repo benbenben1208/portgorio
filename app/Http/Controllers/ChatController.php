@@ -7,6 +7,7 @@ use App\User;
 use App\Group;
 use App\Chat;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\ChatRequest;
 class ChatController extends Controller
 {
@@ -43,8 +44,12 @@ class ChatController extends Controller
     {
         $chats = Chat::with('user:id,name')->orderBy('created_at', 'desc')
             ->get();
-       
-        return $chats;
+        $auth_user = Auth::user();
+
+        return  [
+            'chats' => $chats,
+            'auth_user' => $auth_user,
+        ];
         
     }
     public function destroy(Chat $chat)
