@@ -50,7 +50,8 @@ Route::get('tags/{name}', 'TagController@show')->name('tags.show');
 //チャット機能
 Route::get('chats/{user}/show', 'ChatController@show')->name('chats.show');
 Route::get('chats/{user}/{group}/show', 'ChatController@showIsChatted')->name('chats.showIsChatted');
-Route::post('chats/store', 'ChatController@store')->name('chats.store');
-Route::get('chats/getdata', 'ChatController@getData')->name('chats.getData');
+Route::post('chats/store/{group}', 'ChatController@store')->name('chats.store');
+Route::post('chats/delete/{chat}', 'ChatController@destroy')->name('chats.delete');
+Route::get('chats/getdata/{group}', 'ChatController@getData')->name('chats.getData');
 
 

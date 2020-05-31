@@ -4,6 +4,7 @@
       <div class="col-sm-offset-2 col-sm-8">
         <div class="form-group">
          <input type="text" v-model="message">
+
           <button type="button" v-on:click="submitChat">送信</button>
         </div>
         <div v-for="msg in messages" :key="msg.id">
@@ -20,7 +21,12 @@
 
 <script>
 export default {
-  
+  props: {
+    group : {
+      type: Object,
+      default: null,
+    }
+  },
   data() {
     return {
       message: '',
@@ -29,13 +35,14 @@ export default {
     }
   },
    mounted() {
+     
       this.getMessages();
   },  
   methods: {
      submitChat() {
-     const url = '/chats/store';
+     const url = '/chats/store/' + this.group.id ;
       const params = {message: this.message};
-
+      
       axios.post(url, params).then(res => {
        this.message = '';
        this.getMessages();
@@ -45,17 +52,18 @@ export default {
      
     },
     getMessages() {
-      const url = '/chats/getdata';
+      const url = '/chats/getdata/' + this.group.id ;
       axios.get(url).then(res => {
+        
         this.messages = res.data.chats;
         this.auth_user = res.data.auth_user;
-        
+       
       
       });
     },
     deleteMsg(id) {
       const url = '/chats/delete/' + id;
-      console.log(url);
+     
       axios.post(url).then(res => {
         this.getMessages();
       });

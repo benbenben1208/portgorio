@@ -23,7 +23,7 @@ class ChatController extends Controller
         }
 
         $group->load('users');      
-
+        
             return view('chats.show', compact('group'));
   
     }
@@ -31,18 +31,20 @@ class ChatController extends Controller
     {
         return view('chats.show', compact('group'));
     }
-    public function store(ChatRequest $request)
+    public function store(ChatRequest $request, Group $group)
     {
         
         $chat = new Chat();
         $chat->create($request->validated()+ [
-            'user_id' => $request->user()->id 
+            'user_id' => $request->user()->id,
+            'group_id' => $group->id,
             ]);
             
     }
-    public function getData()
+    public function getData(Group $group)
     {
-        $chats = Chat::with('user:id,name')->orderBy('created_at', 'desc')
+        
+        $chats = Chat::with('user:id,name')->where('group_id', $group->id)->orderBy('created_at', 'desc')
             ->get();
         $auth_user = Auth::user();
 
