@@ -33,13 +33,19 @@ class ChatController extends Controller
     }
     public function store(ChatRequest $request, Group $group)
     {
-        
+        if ($request->photo) {
+            $chats_photo = time() . '.' . $request->photo->getClientOriginalName();
+            $request->photo->storeAs('public/chats_images', $chats_photo);
+            $chat->img_path = $chats_photo;
+        }
+
         $chat = new Chat();
-        $chat->create($request->validated()+ [
+        
+        $chat->fill($request->validated()+ [
             'user_id' => $request->user()->id,
             'group_id' => $group->id,
-            ]);
-            
+            ])->save();
+        
     }
     public function getData(Group $group)
     {

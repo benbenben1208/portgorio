@@ -10,6 +10,7 @@ class Chat extends Model
         'user_id',
         'group_id',
         'message',
+        'img_path',
     ];
     public function user()
     {

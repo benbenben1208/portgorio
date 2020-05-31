@@ -25,6 +25,7 @@ class ChatRequest extends FormRequest
     {
         return [
             'message' => 'max:80',
+            'photo' => 'file|image|mimes:jpeg,png,jpg,gif|max:2048',
         ];
     }
 }
