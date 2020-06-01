@@ -10,11 +10,14 @@
          <p v-if="checkedPhoto">
            <img :src="checkedPhoto" />
          </p>
+         <p class="mt-2 text-danger">{{ alert }}</p>
         <button type="button" @click="submitChat">送信</button>
          
         
         <div v-for="msg in messages" :key="msg.id">
-            <p><span>{{msg.user.name}}</span>{{ msg.created_at }}
+            <p><span>{{msg.user.name}}</span>{{ msg.created_at }}</p>
+            
+            <img :src="msg.img_path">
             <p>{{ msg.message }}
               <button v-if="msg.user_id === auth_user.id" @click="deleteMsg(msg.id)" class="ml-5 btn-sm">削除する</button>
             </p>
@@ -41,6 +44,7 @@ export default {
       messages: [],
       auth_user: [],
       view: true,
+      alert: '',
       file: '',
       checkedPhoto: '',
     }
@@ -50,30 +54,46 @@ export default {
       this.getMessages();
   },  
   methods: {
-     submitChat() {
+     async submitChat() {
      const url = '/chats/store/' + this.group.id ;
-      const params = {message: this.message};
+     let data = new FormData;
+     data.append('photo', this.file);
+     data.append('message', this.message);
       
-      axios.post(url, params).then(res => {
-       this.message = '';
-       this.getMessages();
-
-       
+      const res = await axios.post(url, data, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
       });
-     
+      this.message = '';
+      this.checkedPhoto = '';
+      this.file = '';
+      this.getMessages();
+      this.message = '';
+      this.checkedPhoto = '';
+      this.file = '';
+      this.getMessages();
+      
+      this.view = false;
+      this.$nextTick(function() {
+        this.view = true;
+      })
+
+
     },
     checkPhoto(e) {
+      this.alert = '';
       this.file = e.target.files[0];
-      console.log(this.file.type);
       if (!this.file.type.match('image.*')) {
-        '画像ファイルを選択してください';
+         this.alert = '画像ファイルを選択してください';
          this.checkedPhoto = '';
+         
          return;
       }
-      this.createImage(this.file);
+      this.createPhoto(this.file);
 
     },
-    createImage(file) {
+    createPhoto(file) {
       let reader = new FileReader;
       reader.readAsDataURL(file);
       reader.onload = e => {
@@ -81,15 +101,13 @@ export default {
         
       }
     },
-    getMessages() {
+    async getMessages() {
       const url = '/chats/getdata/' + this.group.id ;
-      axios.get(url).then(res => {
-        
-        this.messages = res.data.chats;
-        this.auth_user = res.data.auth_user;
-       
+      const res = await axios.get(url);
+      this.messages = res.data.chats;
+      this.auth_user = res.data.auth_user;
       
-      });
+
     },
     deleteMsg(id) {
       const url = '/chats/delete/' + id;
