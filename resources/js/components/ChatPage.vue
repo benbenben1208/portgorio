@@ -8,7 +8,7 @@
         
          <input type="file" @change="checkPhoto"  v-if="view">
          <p v-if="checkedPhoto">
-           <img :src="checkedPhoto" />
+           <img class="preview-img" :src="checkedPhoto" />
          </p>
          <p class="mt-2 text-danger">{{ alert }}</p>
         <button type="button" @click="submitChat">送信</button>
@@ -16,9 +16,10 @@
         
         <div v-for="msg in messages" :key="msg.id">
             <p><span>{{msg.user.name}}</span>{{ msg.created_at }}</p>
-            
-            <img :src="msg.img_path">
-            <p>{{ msg.message }}
+            <div v-if="msg.img_path" class="image-trim">
+              <img :src="msg.img_path">
+            </div>
+            <p v-if="msg.message">{{ msg.message }}
               <button v-if="msg.user_id === auth_user.id" @click="deleteMsg(msg.id)" class="ml-5 btn-sm">削除する</button>
             </p>
 
@@ -69,7 +70,7 @@ export default {
       this.checkedPhoto = '';
       this.file = '';
       this.getMessages();
-      this.message = '';
+      this.alert = res.data.success;
       this.checkedPhoto = '';
       this.file = '';
       this.getMessages();
@@ -100,6 +101,7 @@ export default {
         this.checkedPhoto = e.target.result;
         
       }
+      this.alert = 'この画像でよければ送信してください';
     },
     async getMessages() {
       const url = '/chats/getdata/' + this.group.id ;
@@ -118,6 +120,8 @@ export default {
     },
     
   },
+  
+  
     
 
   }

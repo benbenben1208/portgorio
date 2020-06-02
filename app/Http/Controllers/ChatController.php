@@ -46,6 +46,8 @@ class ChatController extends Controller
             'user_id' => $request->user()->id,
             'group_id' => $group->id,
             ])->save();
+
+        return ['success' => '登録しました'];    
         
     }
     public function getData(Group $group)
