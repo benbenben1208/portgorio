@@ -66,7 +66,7 @@ class ChatController extends Controller
     public function destroy(Chat $chat)
     {
         $chat->delete();
-        // $chat = Chat::where('id', $id)->delete();
+        
      
     }
     

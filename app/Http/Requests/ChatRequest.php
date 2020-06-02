@@ -24,7 +24,7 @@ class ChatRequest extends FormRequest
     public function rules()
     {
         return [
-            'message' => 'max:80|nullable',
+            'message' => 'max:80|required_without:photo',
             'photo' => 'file|image|mimes:jpeg,png,jpg,gif|max:2048|nullable',
         ];
     }

@@ -11,6 +11,16 @@
            <img class="preview-img" :src="checkedPhoto" />
          </p>
          <p class="mt-2 text-danger">{{ alert }}</p>
+         
+         <div v-for=" (value,key) in errors" :key="key">
+          <p  v-if="value">
+            <p class="text-danger" v-for="error in value" :key="error">
+              {{ error }}
+            </p>
+          </p>
+          
+         
+         </div>
         <button type="button" @click="submitChat">送信</button>
          
         
@@ -48,6 +58,7 @@ export default {
       alert: '',
       file: '',
       checkedPhoto: '',
+      errors: [],
     }
   },
    mounted() {
@@ -56,30 +67,34 @@ export default {
   },  
   methods: {
      async submitChat() {
-     const url = '/chats/store/' + this.group.id ;
-     let data = new FormData;
-     data.append('photo', this.file);
-     data.append('message', this.message);
+     try {
+       const url = '/chats/store/' + this.group.id ;
+       let data = new FormData;
+       data.append('photo', this.file);
+       data.append('message', this.message);
+       this.errors= [];
+        const res = await axios.post(url, data, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        });
+        this.message = '';
+        this.checkedPhoto = '';
+        this.file = '';
+       
+        this.getMessages();
+        this.alert = res.data.success;
+        this.checkedPhoto = '';
+        this.file = '';
+        this.getMessages();
       
-      const res = await axios.post(url, data, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      });
-      this.message = '';
-      this.checkedPhoto = '';
-      this.file = '';
-      this.getMessages();
-      this.alert = res.data.success;
-      this.checkedPhoto = '';
-      this.file = '';
-      this.getMessages();
-      
-      this.view = false;
-      this.$nextTick(function() {
-        this.view = true;
-      })
-
+        this.view = false;
+        this.$nextTick(function() {
+          this.view = true;
+        })
+      } catch(error) {
+          this.errors = error.response.data.errors;
+      }
 
     },
     checkPhoto(e) {
@@ -99,9 +114,8 @@ export default {
       reader.readAsDataURL(file);
       reader.onload = e => {
         this.checkedPhoto = e.target.result;
-        
+        this.alert = 'この画像でよければ送信してください';
       }
-      this.alert = 'この画像でよければ送信してください';
     },
     async getMessages() {
       const url = '/chats/getdata/' + this.group.id ;
